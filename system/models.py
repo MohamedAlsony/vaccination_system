@@ -14,7 +14,7 @@ class IntegerRangeField(models.IntegerField):
 
 class Parent(models.Model):
     name = models.CharField(max_length=50, default='')
-    email = models.EmailField(max_length=200, default='example@example.com')
+    email = models.EmailField(max_length=200, unique=True)
     def __str__(self):
         return self.name
 
@@ -28,15 +28,26 @@ class Vaccine(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
+        name = self.name
+        vaccine_for = self.vaccine_for
+        child_age_from = self.child_age_from
+        child_age_to = self.child_age_to
+        additional_information = self.additional_information
+        id = len(Vaccine.objects.all())+1
         parents = Parent.objects.all()
         for i in parents:
             email_subject = 'hi, ' + str(i.name)
             email_body = f"""There is new vaccine avalible, 
-name: {self.name}
-This vaccination combats: {self.vaccine_for} disease
-child age from: {self.child_age_from}
-child age to: {self.child_age_to}
-visit our app for more information,
+name: {name}
+This vaccination combats: {vaccine_for} disease
+child age from: {child_age_from}
+child age to: {child_age_to}
+additional information: {additional_information}
+
+• Please click the link below to make us sure that you read this notification:
+http://127.0.0.1:8000/api/seen/{i.id}/{id}
+
+• visit our app for more information,
 thanks.
 """
             to_account = [str(i.email)]
@@ -54,4 +65,10 @@ class Child(models.Model):
 
 class ChildVaccine(models.Model):
     child = models.ForeignKey(Child, on_delete=models.CASCADE)
-    vaccine = models.ManyToManyField(Vaccine)
+    vaccine = models.ManyToManyField(Vaccine, blank=True)
+    done = models.BooleanField(default=False)
+
+class SeenByParent(models.Model):
+    parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
+    vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE)
+    seen = models.BooleanField(default=False)

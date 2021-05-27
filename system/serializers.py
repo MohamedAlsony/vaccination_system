@@ -15,3 +15,8 @@ class ChildSerializer(serializers.ModelSerializer):
     class Meta:
         model = Child
         fields = '__all__'
+
+class SeenByParentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SeenByParent
+        fields = '__all__'
