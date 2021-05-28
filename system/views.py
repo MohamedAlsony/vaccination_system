@@ -83,7 +83,7 @@ child name -> avalible vaccine(s):
             child_vaccine_api_dict = {}
             child_vaccine_api_dict['child'] = key
             child_vaccine_api_dict['vaccine'] = child_vaccine_api[key]
-            requests.post('http://127.0.0.1:8000/api/save',data= child_vaccine_api_dict)
+            requests.post('https://vaccination-system-software.herokuapp.com/api/save',data= child_vaccine_api_dict)
         return Response(data= {"response":"succeeded"})
     return Response(data= {"response":"error"})
 
