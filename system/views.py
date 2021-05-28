@@ -23,7 +23,7 @@ def parent_view(request):
 def child_view(request):
     if request.method == 'POST':
         data = requests.data.copy()
-        serializer = ChildSerializer(data=request.data)
+        serializer = ChildSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
