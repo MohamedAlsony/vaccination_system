@@ -22,11 +22,12 @@ def parent_view(request):
 @permission_classes((AllowAny,))
 def child_view(request):
     if request.method == 'POST':
-        data = requests.data.copy()
+        data = request.data.copy()
+        data['parent'] = Parent.objects.get(name=data['parent']).id
         serializer = ChildSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(request.data)
         return Response(serializer.errors)
 
 
