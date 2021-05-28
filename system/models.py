@@ -45,7 +45,7 @@ child age to: {child_age_to}
 additional information: {additional_information}
 
 • Please click the link below to make us sure that you read this notification:
-http://127.0.0.1:8000/api/seen/{i.id}/{id}
+https://vaccination-system-software.herokuapp.com/api/seen/{i.id}/{id}
 
 • visit our app for more information,
 thanks.
