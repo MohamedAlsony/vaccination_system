@@ -40,8 +40,8 @@ class Vaccine(models.Model):
             email_body = f"""There is new vaccine avalible, 
 name: {name}
 This vaccination combats: {vaccine_for} disease
-child age from: {child_age_from}
-child age to: {child_age_to}
+child age from: {child_age_from} years old
+child age to: {child_age_to} years old
 additional information: {additional_information}
 
 • Please click the link below to make us sure that you read this notification:
