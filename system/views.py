@@ -23,7 +23,7 @@ def parent_view(request):
 def child_view(request):
     if request.method == 'POST':
         data = request.data.copy()
-        data['parent'] = Parent.objects.get(name=data['parent']).id
+        data['parent'] = Parent.objects.get(email=data['parent']).id
         serializer = ChildSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
