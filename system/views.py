@@ -27,7 +27,7 @@ def child_view(request):
         serializer = ChildSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(request.data)
+            return Response(serializer.data)
         return Response(serializer.errors)
 
 
