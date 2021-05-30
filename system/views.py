@@ -48,7 +48,7 @@ def child_vaccine_view(request):
     data = request.data.copy()
     parent = data['parent']
     try:
-        parent = Parent.objects.get(name=parent)
+        parent = Parent.objects.get(email=parent)
     except Parent.DoesNotExist:
         data = {'response':'this parent name Does Not Exist!'}
         return Response(data)
@@ -67,7 +67,7 @@ def child_vaccine_view(request):
                 vacs = vaccine.filter(child_age_from__lte = age).filter(child_age_to__gte = age)
                 child_vaccine[c.name] = "avalible vaccine: " + ",".join(str(x) for x in vacs)
                 child_vaccine_api[c.id] = [int(x.id) for x in vacs]
-                if len(vacs) == 0: child_vaccine[c.name]='this child have no avalible vaccine write now!'
+                if len(vacs) == 0: child_vaccine[c.name]='this child have no avalible vaccine right now!'
         email_subject = 'Child Vaccination system,'
         email_body = f"""hi {parent.name},
 updated at: {date.today()}
