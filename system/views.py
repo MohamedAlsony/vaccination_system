@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render
 from .serializers import *
 from rest_framework.response import Response
@@ -13,9 +14,14 @@ import requests
 def parent_view(request):
     if request.method == 'POST':
         serializer = ParentSerializer(data=request.data)
+        data = {}
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            data = serializer.data.copy()
+            data['response'] = 'success'
+            return Response()
+        data = serializer.errors.copy()
+        data['response'] = 'error'
         return Response(serializer.errors)
 
 @api_view(['POST',])
@@ -23,12 +29,19 @@ def parent_view(request):
 def child_view(request):
     if request.method == 'POST':
         data = request.data.copy()
-        data['parent'] = Parent.objects.get(email=data['parent']).id
+        parent = Parent.objects.filter(email=data['parent'])
+        if parent.count()==0:
+            return Response(data={'response':'error', 'error_msg':'invalid parent data'})
+        data['parent'] = parent[0].id
         serializer = ChildSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+            data = serializer.data.copy()
+            data['response'] = 'success'
+            return Response(data= data)
+        data = serializer.errors.copy()
+        data['response'] = 'error'
+        return Response(data= data)
 
 
 @api_view(['POST',])
