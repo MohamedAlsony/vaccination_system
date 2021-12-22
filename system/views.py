@@ -19,7 +19,7 @@ def parent_view(request):
             serializer.save()
             data = serializer.data.copy()
             data['response'] = 'success'
-            return Response()
+            return Response(data= dataa)
         data = serializer.errors.copy()
         data['response'] = 'error'
         return Response(serializer.errors)
@@ -29,7 +29,7 @@ def parent_view(request):
 def child_view(request):
     if request.method == 'POST':
         data = request.data.copy()
-        parent = Parent.objects.filter(email=data['parent'])
+        parent = Parent.objects.filter(Q(email=request.data.get('parent')) | Q(password=request.data.get('password')))
         if parent.count()==0:
             return Response(data={'response':'error', 'error_msg':'invalid parent data'})
         data['parent'] = parent[0].id
