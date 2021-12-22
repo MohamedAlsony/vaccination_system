@@ -29,7 +29,7 @@ def parent_view(request):
 def child_view(request):
     if request.method == 'POST':
         data = request.data.copy()
-        parent = Parent.objects.filter(Q(email=request.data.get('parent')) | Q(password=request.data.get('password')))
+        parent = Parent.objects.filter(Q(email=request.data.get('parent')) & Q(password=request.data.get('password')))
         if parent.count()==0:
             return Response(data={'response':'error', 'error_msg':'invalid parent data'})
         data['parent'] = parent[0].id
