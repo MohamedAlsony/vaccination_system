@@ -19,7 +19,7 @@ def parent_view(request):
             serializer.save()
             data = serializer.data.copy()
             data['response'] = 'success'
-            return Response(data= dataa)
+            return Response(data= data)
         data = serializer.errors.copy()
         data['response'] = 'error'
         return Response(serializer.errors)
