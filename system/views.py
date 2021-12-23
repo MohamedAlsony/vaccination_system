@@ -21,8 +21,15 @@ def parent_view(request):
             data['response'] = 'success'
             return Response(data= data)
         data = serializer.errors.copy()
+
+        if 'email' in data:
+            data['error_msg'] = 'this email already in use'
+        elif 'nationalid' in data:
+            data['error_msg'] = 'incorrect national ID'
+        else:
+            data['error_msg']= data.values()
         data['response'] = 'error'
-        return Response(serializer.errors)
+        return Response(data=data)
 
 @api_view(['POST',])
 @permission_classes((AllowAny,))
@@ -40,6 +47,11 @@ def child_view(request):
             data['response'] = 'success'
             return Response(data= data)
         data = serializer.errors.copy()
+        #data['response'] = 'error'
+        if 'nationalid' in data:
+            data['error_msg'] = 'incorrect national ID'
+        else:
+            data['error_msg'] = data.values()
         data['response'] = 'error'
         return Response(data= data)
 
