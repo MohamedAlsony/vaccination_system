@@ -49,7 +49,7 @@ def child_view(request):
         x = date.today() - child_date
         d = x.days
         y = d / 365
-        if d < 0 or (0 < y < 12):
+        if d < 0 or (y > 12):
             data = {'response': 'error', 'error_msg': 'The age of this child is not appropriate'}
             return Response(data=data)
         serializer = ChildSerializer(data=data)
