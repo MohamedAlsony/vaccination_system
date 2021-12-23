@@ -96,7 +96,7 @@ def child_vaccine_view(request):
             age = date.today() - c.date_of_birth
             age = int(age.days/365)
             for v in vaccine:
-                vacs = vaccine.filter(Q(child_age_from__gte = age) | Q(child_age_to__lte = age))
+                vacs = vaccine.filter(Q(child_age_from__gte = age) & Q(child_age_to__lte = age))
                 child_vaccine[c.name] = "avalible vaccine: " + ",".join(str(x) for x in vacs)
                 child_vaccine_api[c.id] = [int(x.id) for x in vacs]
                 if len(vacs) == 0: child_vaccine[c.name]='this child have no available vaccine right now!'
