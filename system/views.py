@@ -1,3 +1,4 @@
+
 from django.db.models import Q
 from django.shortcuts import render
 from .serializers import *
@@ -118,7 +119,9 @@ child name -> avalible vaccine(s):
             child_vaccine_api_dict = {}
             child_vaccine_api_dict['child'] = key
             child_vaccine_api_dict['vaccine'] = child_vaccine_api[key]
-            requests.post('https://vaccination-system-software.herokuapp.com/api/save',data= child_vaccine_api_dict)
+            serializer = SaveDataSerializer(data=child_vaccine_api_dict)
+            if serializer.is_valid():
+                serializer.save()
         return Response(data= {"response":"succeeded"})
     return Response(data= {"response":"error"})
 
