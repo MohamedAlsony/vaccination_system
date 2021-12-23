@@ -16,7 +16,7 @@ class Parent(models.Model):
     name = models.CharField(max_length=50, default='')
     email = models.EmailField(max_length=200, unique=True)
     password = models.CharField(max_length=50, default='')
-    nationalid = models.CharField(max_length=14, default='')
+    nationalid = models.CharField(max_length=14, default='',unique=True)
 
     def __str__(self):
         return self.name
@@ -63,7 +63,7 @@ class Child(models.Model):
     name = models.CharField(max_length=50, default='')
     date_of_birth = models.DateField()
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
-    nationalid = models.CharField(max_length=14, default='')
+    nationalid = models.CharField(max_length=14, default='', unique=True)
     def __str__(self):
         return self.name
 
