@@ -27,7 +27,10 @@ def parent_view(request):
         elif 'nationalid' in data:
             data['error_msg'] = 'incorrect national ID'
         else:
-            data['error_msg']= data.values()
+            s = ''
+            for i in data:
+                s += f'invalid {i}, ' + ''.join(data[i])
+            data['error_msg'] = s
         data['response'] = 'error'
         return Response(data=data)
 
@@ -51,7 +54,10 @@ def child_view(request):
         if 'nationalid' in data:
             data['error_msg'] = 'incorrect national ID'
         else:
-            data['error_msg'] = data.values()
+            s = ''
+            for i in data:
+                s+= f'invalid {i}, ' + ''.join(data[i])
+            data['error_msg'] = s
         data['response'] = 'error'
         return Response(data= data)
 
