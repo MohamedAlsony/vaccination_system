@@ -46,6 +46,12 @@ def child_view(request):
         data['parent'] = parent[0].id
         serializer = ChildSerializer(data=data)
         if serializer.is_valid():
+            x = date.today() - serializer.data.get('date_of_birth')
+            d = x.days
+            y = d/365
+            if d < 0 or (0<y<12):
+                data = {'response':'error', 'error_msg':'The age of this child is not appropriate'}
+                return Response(data=data)
             serializer.save()
             data = serializer.data.copy()
             data['response'] = 'success'
@@ -95,6 +101,7 @@ def child_vaccine_view(request):
         for c in child:
             age = date.today() - c.date_of_birth
             age = int(age.days/365)
+
             for v in vaccine:
                 vacs = vaccine.filter(Q(child_age_from__lte = age) & Q(child_age_to__gte = age))
                 child_vaccine[c.name] = "avalible vaccine: " + ",".join(str(x) for x in vacs)
