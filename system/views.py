@@ -44,14 +44,16 @@ def child_view(request):
         if parent.count()==0:
             return Response(data={'response':'error', 'error_msg':'invalid parent data'})
         data['parent'] = parent[0].id
+        z = request.data.get('date_of_birth').split('-')
+        child_date = date(year = int(z[0]), month= int(z[1]), day=int(z[2]))
+        x = date.today() - child_date
+        d = x.days
+        y = d / 365
+        if d < 0 or (0 < y < 12):
+            data = {'response': 'error', 'error_msg': 'The age of this child is not appropriate'}
+            return Response(data=data)
         serializer = ChildSerializer(data=data)
         if serializer.is_valid():
-            x = date.today() - serializer.data.get('date_of_birth')
-            d = x.days
-            y = d/365
-            if d < 0 or (0<y<12):
-                data = {'response':'error', 'error_msg':'The age of this child is not appropriate'}
-                return Response(data=data)
             serializer.save()
             data = serializer.data.copy()
             data['response'] = 'success'
