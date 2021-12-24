@@ -104,12 +104,10 @@ def child_vaccine_view(request):
         for c in child:
             age = date.today() - c.date_of_birth
             age = int(age.days/365)
-
-            for v in vaccine:
-                vacs = vaccine.filter(Q(child_age_from__lte = age) & Q(child_age_to__gte = age))
-                child_vaccine[c.name] = "avalible vaccine: " + ",".join(str(x) for x in vacs)
-                child_vaccine_api[c.id] = [int(x.id) for x in vacs]
-                if len(vacs) == 0: child_vaccine[c.name]='this child have no available vaccine right now!'
+            vacs = vaccine.filter(Q(child_age_from__lte = age) & Q(child_age_to__gte = age))
+            child_vaccine[c.name] = "avalible vaccine: " + ",".join(str(x) for x in vacs)
+            child_vaccine_api[c.id] = [int(x.id) for x in vacs]
+            if len(vacs) == 0: child_vaccine[c.name]='this child have no available vaccine right now!'
         email_subject = 'Child Vaccination system,'
         email_body = f"""hi {parent.name},
 updated at: {date.today()}
@@ -117,9 +115,7 @@ updated at: {date.today()}
 your children data:
 child name -> avalible vaccine(s):
 """
-        for i in child:
-            if i.name not in child_vaccine:
-                child_vaccine[i.name] = 'this child have no available vaccine right now!'
+
         for key in child_vaccine:
             email_body += f"{key} -> {child_vaccine[key]}\n"
         to_account = [str(parent.email)]
