@@ -1,4 +1,5 @@
 
+from rest_framework import status
 from django.db.models import Q
 from django.shortcuts import render
 from .serializers import *
@@ -33,7 +34,7 @@ def parent_view(request):
                 s += f'invalid {i}, ' + ''.join(data[i])
             data['error_msg'] = s
         data['response'] = 'error'
-        return Response(data=data)
+        return Response(data=data, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST',])
 @permission_classes((AllowAny,))
