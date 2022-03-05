@@ -20,3 +20,8 @@ class SeenByParentSerializer(serializers.ModelSerializer):
     class Meta:
         model = SeenByParent
         fields = '__all__'
+
+class FileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cloud
+        fields = '__all__'

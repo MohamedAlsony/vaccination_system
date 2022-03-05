@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from django.db import models
 from django.core.mail import EmailMessage
 
@@ -76,3 +77,6 @@ class SeenByParent(models.Model):
     parent = models.ForeignKey(Parent, on_delete=models.CASCADE)
     vaccine = models.ForeignKey(Vaccine, on_delete=models.CASCADE)
     seen = models.BooleanField(default=False)
+
+class Cloud(models.Model):
+    file = CloudinaryField(resource_type="auto", null=True, blank=True)

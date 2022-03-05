@@ -145,3 +145,34 @@ def seen_by_parent_view(request, parent, vaccine):
             serializer.save()
             return Response({'Done!'})
         return Response(serializer.errors)
+
+
+
+
+from rest_framework.parsers import FileUploadParser
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from .serializers import FileSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
+
+
+
+class FileUploadView(APIView):
+    permission_classes = []
+    parser_class = (FileUploadParser,)
+
+    def post(self, request, *args, **kwargs):
+
+        context = request.data.copy()
+        context['file'] = request.FILES.get('file')
+
+
+        file_serializer = FileSerializer(data=context)
+
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

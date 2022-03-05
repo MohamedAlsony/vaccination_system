@@ -9,4 +9,5 @@ urlpatterns = [
     path('child', child_view, name='add new child'),
     path('mail', child_vaccine_view, name='mail'),
     path('seen/<int:parent>/<int:vaccine>', seen_by_parent_view),
+    path('file', FileUploadView.as_view()),
 ]

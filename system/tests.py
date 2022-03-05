@@ -56,14 +56,16 @@ class TestViews(TestCase):
                            password="12345",
                            nationalid=12345678912343)
 
-        Child.objects.create(name= "ehab", parent= self.parent_object, nationalid="12345678912222", date_of_birth= "2019-02-02")
+        Child.objects.create(name= "ehab",
+                    parent= self.parent_object, nationalid="12345678912222", date_of_birth= "2019-02-02")
+
+
         Vaccine.objects.create(
             name="vaccine 1",
             vaccine_for="corona",
             child_age_from = 4,
             child_age_to = 9)
-        print(Vaccine.objects.first().id)
-        print(Parent.objects.first().id)
+
 
         print(" View Test passed")
 
@@ -118,7 +120,7 @@ class TestViews(TestCase):
         self.assertEquals(response.data.get('response'), 'error')
 
 
-    def test_parent_seen_view_POST_nodata(self):
+    def test_parent_seen_view_POST(self):
 
         response = self.client.get('/api/seen/1/1', {},parent=1,vaccine=1)
 
